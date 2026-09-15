@@ -20,6 +20,7 @@ type Project = {
   tone: string
   link: string
   narrative?: string
+  image?: string
 }
 
 const projects: Project[] = [
@@ -41,11 +42,14 @@ const projects: Project[] = [
   { number: '16', title: 'Gold Price Prediction Model', category: 'Python / Machine Learning', description: 'Linear Regression forecasting model in Python with 99.97% accuracy.', tone: 'project-wine', link: 'https://adityajamdhade.netlify.app/ground/gold-prediction', narrative: 'A Python Linear Regression model for forecasting gold prices, reaching 99.97% reported accuracy and demonstrating a complete machine-learning workflow from data preparation through prediction.' },
   { number: '17', title: 'Titanic Survival Prediction Model', category: 'Python / Classification', description: 'Logistic Regression model predicting passenger survival probabilities.', tone: 'project-ink', link: 'https://adityajamdhade.netlify.app/ground/titanic-prediction', narrative: 'A Logistic Regression classification model that uses passenger data to estimate survival probabilities, turning a familiar dataset into a clear study of feature-based prediction.' },
   { number: '18', title: 'Streamverse ETL Watch History Pipeline', category: 'Data Engineering / ETL', description: 'Python data engineering pipeline for ingesting and normalizing watch logs.', tone: 'project-rust', link: 'https://adityajamdhade.netlify.app/ground/streamverse-etl', narrative: 'A Python ETL pipeline for ingesting watch-history logs, normalizing inconsistent records and preparing reliable data for downstream analysis.' },
-  { number: '19', title: 'City Open - Tennis Event Poster', category: 'Visual Archive / Canva / Typography', description: 'Sports event poster using clean layout, typography and motion tilt.', tone: 'project-plum', link: 'https://adityajamdhade.netlify.app/play', narrative: 'A sports event poster built in Canva around clean layout, typography and a motion-tilt treatment.' },
-  { number: '20', title: 'Retro Rides - Classic Car Show', category: 'Visual Archive / Retro / Grain', description: 'Vintage advertising poster inspired by 90s American retro aesthetics.', tone: 'project-charcoal', link: 'https://adityajamdhade.netlify.app/play', narrative: 'A vintage advertising poster inspired by 90s American retro aesthetics, using grain texture and a classic-car visual language.' },
-  { number: '21', title: 'SoulStretch: Yoga & Wellness', category: 'Visual Archive / Figma / Branding', description: 'Instagram social posts promoting mindfulness through earthy visuals.', tone: 'project-wine', link: 'https://adityajamdhade.netlify.app/play', narrative: 'A Figma branding and social-content system for yoga and wellness, using earthy visuals to promote mindfulness across Instagram posts.' },
-  { number: '22', title: 'Velvoria Cupcake Delight Poster', category: 'Visual Archive / Canva / Food Advertising', description: 'Premium food product advertising poster highlighting consumer indulgence.', tone: 'project-rust', link: 'https://adityajamdhade.netlify.app/play', narrative: 'A Canva Pro food-advertising poster designed to make a premium cupcake product feel indulgent and desirable.' },
+  { number: '19', title: 'City Open - Tennis Event Poster', category: 'Visual Archive / Canva / Typography', description: 'Sports event poster using clean layout, typography and motion tilt.', tone: 'project-plum', link: 'https://adityajamdhade.netlify.app/play', image: './images/graphic-design/city-open.png', narrative: 'A sports event poster built in Canva around clean layout, typography and a motion-tilt treatment.' },
+  { number: '20', title: 'Retro Rides - Classic Car Show', category: 'Visual Archive / Retro / Grain', description: 'Vintage advertising poster inspired by 90s American retro aesthetics.', tone: 'project-charcoal', link: 'https://adityajamdhade.netlify.app/play', image: './images/graphic-design/retro-rides.png', narrative: 'A vintage advertising poster inspired by 90s American retro aesthetics, using grain texture and a classic-car visual language.' },
+  { number: '21', title: 'SoulStretch: Yoga & Wellness', category: 'Visual Archive / Figma / Branding', description: 'Instagram social posts promoting mindfulness through earthy visuals.', tone: 'project-wine', link: 'https://adityajamdhade.netlify.app/play', image: './images/graphic-design/soulstretch.png', narrative: 'A Figma branding and social-content system for yoga and wellness, using earthy visuals to promote mindfulness across Instagram posts.' },
+  { number: '22', title: 'Velvoria Cupcake Delight Poster', category: 'Visual Archive / Canva / Food Advertising', description: 'Premium food product advertising poster highlighting consumer indulgence.', tone: 'project-rust', link: 'https://adityajamdhade.netlify.app/play', image: './images/graphic-design/velvoria.png', narrative: 'A Canva Pro food-advertising poster designed to make a premium cupcake product feel indulgent and desirable.' },
 ]
+
+const productProjects = projects.filter((project) => Number(project.number) <= 18)
+const graphicProjects = projects.filter((project) => Number(project.number) > 18)
 
 function ScrollReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const revealRef = useRef<HTMLDivElement>(null)
@@ -246,7 +250,13 @@ function App() {
                 </button>
               </div>
               <h3 id="project-detail-title" className="mt-16 max-w-4xl font-playfair text-4xl italic leading-[0.98] tracking-[-0.05em] text-white sm:text-6xl">{selectedProject.title}</h3>
-              <div className="mt-10 grid gap-8 border-t border-white/20 pt-7 md:grid-cols-[0.7fr_1.3fr]">
+              <div className={`mt-10 grid gap-8 border-t border-white/20 pt-7 ${selectedProject.image ? 'md:grid-cols-[0.8fr_1.2fr]' : 'md:grid-cols-[0.7fr_1.3fr]'}`}>
+                {selectedProject.image && (
+                  <figure>
+                    <img src={selectedProject.image} alt={selectedProject.title} className="project-detail-image" />
+                    <figcaption className="mt-3 text-[10px] uppercase tracking-[0.18em] text-white/45">Full poster view / {selectedProject.category}</figcaption>
+                  </figure>
+                )}
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-white/50">Project brief</p>
                   <p className="mt-4 text-sm leading-7 text-white/75">{selectedProject.description}</p>
@@ -261,9 +271,35 @@ function App() {
           )}
 
           <div className="portfolio-grid">
-            {projects.map((project, index) => (
+            {productProjects.map((project, index) => (
               <ScrollReveal key={project.number} className={`project-tile ${index === 0 ? 'md:col-span-2' : ''}`}>
                 <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
+                  <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
+                    <span>{project.number}</span>
+                    <ArrowUpRight size={18} strokeWidth={1.4} />
+                  </div>
+                  <div className="mt-auto">
+                    <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-white/55">{project.category}</p>
+                    <h3 className="font-playfair text-3xl italic tracking-[-0.04em] sm:text-4xl">{project.title}</h3>
+                    <p className="mt-3 max-w-xs text-sm leading-6 text-white/60">{project.description}</p>
+                  </div>
+                </button>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal className="mt-32 mb-12 flex flex-col justify-between gap-7 border-t border-white/15 pt-8 md:flex-row md:items-end">
+            <div>
+              <span className="eyebrow">03 / Graphic design</span>
+              <h3 className="section-heading mt-5 text-5xl sm:text-7xl">The <em>visual</em> archive.</h3>
+            </div>
+            <p className="max-w-xs text-sm leading-6 text-white/55">Posters, type, branding and visual experiments from the creative side of the practice.</p>
+          </ScrollReveal>
+
+          <div className="portfolio-grid">
+            {graphicProjects.map((project) => (
+              <ScrollReveal key={project.number} className="project-tile">
+                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.82)), url(${project.image})` }} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />

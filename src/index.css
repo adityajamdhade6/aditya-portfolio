@@ -91,6 +91,16 @@ html {
   outline-offset: 4px;
 }
 
+.project-detail-image {
+  aspect-ratio: 3 / 4;
+  background: rgb(0 0 0 / 0.2);
+  display: block;
+  max-height: 34rem;
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+}
+
 .project-art::before,
 .project-art::after {
   content: '';
