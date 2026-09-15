@@ -48,8 +48,12 @@ const projects: Project[] = [
   { number: '22', title: 'Velvoria Cupcake Delight Poster', category: 'Visual Archive / Canva / Food Advertising', description: 'Premium food product advertising poster highlighting consumer indulgence.', tone: 'project-rust', link: 'https://adityajamdhade.netlify.app/play', image: './images/graphic-design/velvoria.png', narrative: 'A Canva Pro food-advertising poster designed to make a premium cupcake product feel indulgent and desirable.' },
 ]
 
-const productProjects = projects.filter((project) => Number(project.number) <= 18)
-const graphicProjects = projects.filter((project) => Number(project.number) > 18)
+const productProjectNumbers = new Set(['01', '02', '03', '07', '08', '09', '10', '12', '13', '14'])
+const graphicProjectNumbers = new Set(['19', '20'])
+const experimentProjectNumbers = new Set(['05', '06', '11', '21', '22'])
+const productProjects = projects.filter((project) => productProjectNumbers.has(project.number))
+const graphicProjects = projects.filter((project) => graphicProjectNumbers.has(project.number))
+const experimentProjects = projects.filter((project) => experimentProjectNumbers.has(project.number))
 
 function ScrollReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const revealRef = useRef<HTMLDivElement>(null)
@@ -300,6 +304,32 @@ function App() {
             {graphicProjects.map((project) => (
               <ScrollReveal key={project.number} className="project-tile">
                 <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.82)), url(${project.image})` }} aria-label={`View details for ${project.title}`}>
+                  <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
+                    <span>{project.number}</span>
+                    <ArrowUpRight size={18} strokeWidth={1.4} />
+                  </div>
+                  <div className="mt-auto">
+                    <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-white/55">{project.category}</p>
+                    <h3 className="font-playfair text-3xl italic tracking-[-0.04em] sm:text-4xl">{project.title}</h3>
+                    <p className="mt-3 max-w-xs text-sm leading-6 text-white/60">{project.description}</p>
+                  </div>
+                </button>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal className="mt-32 mb-12 flex flex-col justify-between gap-7 border-t border-white/15 pt-8 md:flex-row md:items-end">
+            <div>
+              <span className="eyebrow">04 / Experiments</span>
+              <h3 className="section-heading mt-5 text-5xl sm:text-7xl">The <em>side quests.</em></h3>
+            </div>
+            <p className="max-w-xs text-sm leading-6 text-white/55">Smaller product explorations and visual studies, kept separate from the main case-study work.</p>
+          </ScrollReveal>
+
+          <div className="portfolio-grid">
+            {experimentProjects.map((project) => (
+              <ScrollReveal key={project.number} className="project-tile">
+                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />
