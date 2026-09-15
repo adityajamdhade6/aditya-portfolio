@@ -7,8 +7,6 @@ type CursorPosition = { x: number; y: number }
 
 type RevealLayerProps = {
   image: string
-  cursorX: number
-  cursorY: number
   radius: number
 }
 
@@ -79,70 +77,8 @@ function ScrollReveal({ children, className = '' }: { children: React.ReactNode;
   return <div ref={revealRef} className={`scroll-reveal ${className}`}>{children}</div>
 }
 
-function RevealLayer({ image, cursorX, cursorY, radius }: RevealLayerProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+function RevealLayer({ image, radius }: RevealLayerProps) {
   const revealRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-
-    resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
-    return () => window.removeEventListener('resize', resizeCanvas)
-  }, [])
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    const reveal = revealRef.current
-    if (!canvas || !reveal) return
-
-    const context = canvas.getContext('2d')
-    if (!context) return
-
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    const gradient = context.createRadialGradient(cursorX, cursorY, 0, cursorX, cursorY, radius)
-    gradient.addColorStop(0, 'rgba(255,255,255,1)')
-    gradient.addColorStop(0.4, 'rgba(255,255,255,1)')
-    gradient.addColorStop(0.6, 'rgba(255,255,255,0.75)')
-    gradient.addColorStop(0.75, 'rgba(255,255,255,0.4)')
-    gradient.addColorStop(0.88, 'rgba(255,255,255,0.12)')
-    gradient.addColorStop(1, 'rgba(255,255,255,0)')
-    context.fillStyle = gradient
-    context.beginPath()
-    context.arc(cursorX, cursorY, radius, 0, Math.PI * 2)
-    context.fill()
-
-    const mask = `url(${canvas.toDataURL()})`
-    reveal.style.maskImage = mask
-    reveal.style.webkitMaskImage = mask
-    reveal.style.maskSize = '100% 100%'
-    reveal.style.webkitMaskSize = '100% 100%'
-    reveal.style.maskRepeat = 'no-repeat'
-    reveal.style.webkitMaskRepeat = 'no-repeat'
-  }, [cursorX, cursorY, radius])
-
-  return (
-    <>
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" style={{ display: 'none' }} aria-hidden="true" />
-      <div
-        ref={revealRef}
-        className="absolute inset-0 z-30 pointer-events-none bg-center bg-cover bg-no-repeat"
-        style={{ backgroundImage: `url(${image})` }}
-        aria-hidden="true"
-      />
-    </>
-  )
-}
-
-function App() {
-  const [cursorPos, setCursorPos] = useState<CursorPosition>({ x: -999, y: -999 })
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const mouse = useRef<CursorPosition>({ x: -999, y: -999 })
   const smooth = useRef<CursorPosition>({ x: -999, y: -999 })
   const rafRef = useRef<number | null>(null)
@@ -152,10 +88,14 @@ function App() {
       mouse.current = { x: event.clientX, y: event.clientY }
     }
 
+    const reveal = revealRef.current
+    if (!reveal) return
+
     const animate = () => {
       smooth.current.x += (mouse.current.x - smooth.current.x) * 0.1
       smooth.current.y += (mouse.current.y - smooth.current.y) * 0.1
-      setCursorPos({ ...smooth.current })
+      reveal.style.setProperty('--spotlight-x', `${smooth.current.x}px`)
+      reveal.style.setProperty('--spotlight-y', `${smooth.current.y}px`)
       rafRef.current = requestAnimationFrame(animate)
     }
 
@@ -164,6 +104,42 @@ function App() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={revealRef}
+      className="spotlight-reveal absolute inset-0 z-30 pointer-events-none bg-center bg-cover bg-no-repeat"
+      style={{ backgroundImage: `url(${image})`, '--spotlight-radius': `${radius}px` } as React.CSSProperties}
+      aria-hidden="true"
+    />
+  )
+}
+
+function App() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const detailRef = useRef<HTMLDivElement>(null)
+
+  const selectProject = (project: Project) => {
+    setSelectedProject(project)
+    window.setTimeout(() => {
+      const detail = detailRef.current
+      if (!detail) return
+      const top = detail.getBoundingClientRect().top + window.scrollY - 104
+      window.scrollTo({ top, behavior: 'smooth' })
+    }, 100)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
 
@@ -184,14 +160,26 @@ function App() {
         </div>
 
         <a href="#contact" className="hidden rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 md:block">Let's Create</a>
-        <button type="button" className="rounded-full border border-white/25 bg-white/15 p-2 text-white backdrop-blur-md md:hidden" aria-label="Open menu">
-          <Menu size={20} strokeWidth={1.8} />
+        <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} className="rounded-full border border-white/25 bg-white/15 p-2 text-white backdrop-blur-md md:hidden" aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileMenuOpen}>
+          {mobileMenuOpen ? <X size={20} strokeWidth={1.8} /> : <Menu size={20} strokeWidth={1.8} />}
         </button>
+        {mobileMenuOpen && (
+          <div className="absolute left-4 right-4 top-16 flex flex-col gap-1 rounded-2xl border border-white/20 bg-black/75 p-2 text-white shadow-2xl backdrop-blur-xl md:hidden">
+            {[
+              ['About', '#about'],
+              ['Portfolio', '#portfolio'],
+              ['Collaborate', '#collaborate'],
+              ["Let's Create", '#contact'],
+            ].map(([label, href]) => (
+              <a key={href} href={href} onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-4 py-3 text-sm text-white/80 transition-colors hover:bg-white/15 hover:text-white">{label}</a>
+            ))}
+          </div>
+        )}
       </nav>
 
       <section id="hero" className="relative h-screen w-full overflow-hidden bg-black" style={{ height: '100dvh' }}>
         <div className="hero-zoom absolute inset-0 z-10 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('./images/Base_image.png')" }} />
-        <RevealLayer image="./images/Reveal_image.png" cursorX={cursorPos.x} cursorY={cursorPos.y} radius={SPOTLIGHT_R} />
+        <RevealLayer image="./images/Reveal_image.png" radius={SPOTLIGHT_R} />
 
         <div className="absolute top-1/2 z-50 flex -translate-y-1/2 flex-col items-start px-5 text-left" style={{ left: '80px' }}>
           <h1 className="leading-[0.95] text-white">
@@ -243,7 +231,7 @@ function App() {
           </ScrollReveal>
 
           {selectedProject && (
-            <div className={`project-detail ${selectedProject.tone} mb-8`} aria-labelledby="project-detail-title">
+            <div ref={detailRef} className={`project-detail ${selectedProject.tone} mb-8`} aria-labelledby="project-detail-title">
               <div className="flex items-start justify-between gap-6">
                 <div>
                   <span className="text-xs uppercase tracking-[0.2em] text-white/55">Project {selectedProject.number}</span>
@@ -277,7 +265,7 @@ function App() {
           <div className="portfolio-grid">
             {productProjects.map((project, index) => (
               <ScrollReveal key={project.number} className={`project-tile ${index === 0 ? 'md:col-span-2' : ''}`}>
-                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
+                <button type="button" onClick={() => selectProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />
@@ -303,7 +291,7 @@ function App() {
           <div className="portfolio-grid">
             {graphicProjects.map((project) => (
               <ScrollReveal key={project.number} className="project-tile">
-                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.82)), url(${project.image})`, backgroundSize: '100% 100%, contain', backgroundPosition: 'center, center', backgroundRepeat: 'no-repeat, no-repeat' }} aria-label={`View details for ${project.title}`}>
+                <button type="button" onClick={() => selectProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.82)), url(${project.image})`, backgroundSize: '100% 100%, contain', backgroundPosition: 'center, center', backgroundRepeat: 'no-repeat, no-repeat' }} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />
@@ -329,7 +317,7 @@ function App() {
           <div className="portfolio-grid">
             {experimentProjects.map((project) => (
               <ScrollReveal key={project.number} className="project-tile">
-                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
+                <button type="button" onClick={() => selectProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />

@@ -13,6 +13,31 @@
   font-family: 'Playfair Display', serif;
 }
 
+.spotlight-reveal {
+  --spotlight-x: -999px;
+  --spotlight-y: -999px;
+  -webkit-mask-image: radial-gradient(
+    circle var(--spotlight-radius) at var(--spotlight-x) var(--spotlight-y),
+    rgb(255 255 255 / 1) 0%,
+    rgb(255 255 255 / 1) 40%,
+    rgb(255 255 255 / 0.75) 60%,
+    rgb(255 255 255 / 0.4) 75%,
+    rgb(255 255 255 / 0.12) 88%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--spotlight-radius) at var(--spotlight-x) var(--spotlight-y),
+    rgb(255 255 255 / 1) 0%,
+    rgb(255 255 255 / 1) 40%,
+    rgb(255 255 255 / 0.75) 60%,
+    rgb(255 255 255 / 0.4) 75%,
+    rgb(255 255 255 / 0.12) 88%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
 body {
   margin: 0;
 }
@@ -144,6 +169,7 @@ html {
 .project-detail {
   margin-top: 1rem;
   padding: 1.5rem;
+  scroll-margin-top: 104px;
 }
 
 @media (min-width: 640px) {
