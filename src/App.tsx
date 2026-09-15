@@ -47,31 +47,6 @@ const projects: Project[] = [
   { number: '22', title: 'Velvoria Cupcake Delight Poster', category: 'Visual Archive / Canva / Food Advertising', description: 'Premium food product advertising poster highlighting consumer indulgence.', tone: 'project-rust', link: 'https://adityajamdhade.netlify.app/play', narrative: 'A Canva Pro food-advertising poster designed to make a premium cupcake product feel indulgent and desirable.' },
 ]
 
-const projectImages: Record<string, string> = {
-  '01': './images/projects/founderos.png',
-  '02': './images/projects/aianalyst.png',
-  '03': './images/projects/instamart.png',
-  '04': './images/projects/financial-market.jpg',
-  '05': './images/projects/zomato-aov.png',
-  '06': './images/projects/zomato-reviews.png',
-  '07': './images/projects/aianalyst.png',
-  '08': './images/projects/vantage.png',
-  '09': './images/projects/founderos.png',
-  '10': './images/projects/porter.png',
-  '11': './images/projects/gold-prediction.jpg',
-  '12': './images/projects/nurture.png',
-  '13': './images/projects/inhaus.png',
-  '14': './images/projects/zupper.jpg',
-  '15': './images/projects/simple-threads.jpg',
-  '16': './images/projects/gold-prediction.jpg',
-  '17': './images/projects/titanic.jpg',
-  '18': './images/projects/streamverse.jpg',
-  '19': './images/projects/tennis.png',
-  '20': './images/projects/retro.png',
-  '21': './images/projects/soulstretch.png',
-  '22': './images/projects/velvoria.png',
-}
-
 function ScrollReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const revealRef = useRef<HTMLDivElement>(null)
 
@@ -288,7 +263,7 @@ function App() {
           <div className="portfolio-grid">
             {projects.map((project, index) => (
               <ScrollReveal key={project.number} className={`project-tile ${index === 0 ? 'md:col-span-2' : ''}`}>
-                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.78)), url(${projectImages[project.number]})` }} aria-label={`View details for ${project.title}`}>
+                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />
