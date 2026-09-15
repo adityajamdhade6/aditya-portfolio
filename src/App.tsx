@@ -49,8 +49,8 @@ const projects: Project[] = [
 ]
 
 const productProjectNumbers = new Set(['01', '02', '03', '07', '08', '09', '10', '12', '13', '14'])
-const graphicProjectNumbers = new Set(['19', '20'])
-const experimentProjectNumbers = new Set(['05', '06', '11', '21', '22'])
+const graphicProjectNumbers = new Set(['19', '20', '21', '22'])
+const experimentProjectNumbers = new Set(['05', '06', '11'])
 const productProjects = projects.filter((project) => productProjectNumbers.has(project.number))
 const graphicProjects = projects.filter((project) => graphicProjectNumbers.has(project.number))
 const experimentProjects = projects.filter((project) => experimentProjectNumbers.has(project.number))
@@ -303,7 +303,7 @@ function App() {
           <div className="portfolio-grid">
             {graphicProjects.map((project) => (
               <ScrollReveal key={project.number} className="project-tile">
-                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.82)), url(${project.image})` }} aria-label={`View details for ${project.title}`}>
+                <button type="button" onClick={() => setSelectedProject(project)} className={`project-art ${project.tone} w-full text-left`} style={{ backgroundImage: `linear-gradient(180deg, rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.82)), url(${project.image})`, backgroundSize: '100% 100%, contain', backgroundPosition: 'center, center', backgroundRepeat: 'no-repeat, no-repeat' }} aria-label={`View details for ${project.title}`}>
                   <div className="flex items-start justify-between text-xs tracking-[0.16em] text-white/55">
                     <span>{project.number}</span>
                     <ArrowUpRight size={18} strokeWidth={1.4} />
