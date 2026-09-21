@@ -1,32 +1,38 @@
-# React + TypeScript + Vite
+# Aditya Jamdhade — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Single-page portfolio built with Vite, React 19, TypeScript and Tailwind CSS v4.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # typecheck + production build into dist/
+npm run lint
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Where things live
+
+| Path | What it is |
+| --- | --- |
+| `src/data/projects.ts` | Every project. Add or edit work here; the page renders from it. |
+| `src/data/site.ts` | Email, social links, services and process steps. |
+| `src/sections/` | Page sections: About, Work, Collaborate, Contact. |
+| `src/components/` | Nav, Hero (spotlight effect), project cards, cover art and the detail dialog. |
+| `public/images/` | Hero photos, project screenshots (`projects/`) and posters (`graphic-design/`), all `.webp`. |
+
+## Adding a project
+
+Add an entry to `projects` in `src/data/projects.ts`:
+
+- `group` decides where it appears: `product` (case studies), `graphic` (poster wall), `experiment`, or `archive` (text-only list).
+- `image` is optional. Screenshots are framed automatically on a `tone` backdrop; posters are shown as-is.
+  Without an image the card uses typographic cover art built from `metric` (and an optional `art` icon).
+- `metric` is one headline number shown on the card and in the detail dialog.
+- The `slug` becomes the shareable URL: `/#project-<slug>`.
+
+## Images
+
+Export screenshots at about 1400px wide and posters at about 1200px wide, then convert to WebP:
+
+```bash
+cwebp -q 80 input.png -o public/images/projects/name.webp
+```
