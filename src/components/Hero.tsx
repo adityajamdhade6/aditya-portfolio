@@ -66,8 +66,94 @@ function RevealLayer({ image, radius }: { image: string; radius: number }) {
   )
 }
 
+/**
+ * Touch version of the spotlight: it follows a finger dragged over the photo and drifts away shortly after
+ * release. A short automatic sweep on load shows there is something to find. Scrolling is never blocked
+ * because the listeners are passive.
+ */
+function TouchReveal({ image }: { image: string }) {
+  const revealRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const reveal = revealRef.current
+    if (!reveal) return
+
+    const target = { x: -999, y: -999 }
+    const current = { x: -999, y: -999 }
+    let frame = 0
+    let releaseTimer = 0
+    const timers: number[] = []
+
+    const tick = () => {
+      current.x += (target.x - current.x) * 0.12
+      current.y += (target.y - current.y) * 0.12
+      reveal.style.setProperty('--spotlight-x', `${current.x}px`)
+      reveal.style.setProperty('--spotlight-y', `${current.y}px`)
+      const settled = Math.abs(target.x - current.x) < 0.5 && Math.abs(target.y - current.y) < 0.5
+      frame = settled ? 0 : requestAnimationFrame(tick)
+    }
+    const wake = () => {
+      if (!frame) frame = requestAnimationFrame(tick)
+    }
+    const moveTo = (x: number, y: number) => {
+      target.x = x
+      target.y = y
+      wake()
+    }
+
+    const rect = () => reveal.getBoundingClientRect()
+    reveal.style.setProperty('--spotlight-radius', `${Math.min(SPOTLIGHT_RADIUS, rect().width * 0.3)}px`)
+
+    const onTouch = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      if (!touch) return
+      const box = rect()
+      const inside = touch.clientY >= box.top && touch.clientY <= box.bottom && touch.clientX >= box.left && touch.clientX <= box.right
+      if (!inside) return
+      window.clearTimeout(releaseTimer)
+      timers.forEach(window.clearTimeout)
+      moveTo(touch.clientX - box.left, touch.clientY - box.top)
+    }
+    const onEnd = () => {
+      window.clearTimeout(releaseTimer)
+      releaseTimer = window.setTimeout(() => moveTo(-999, -999), 1200)
+    }
+
+    // Intro sweep across the face so people notice the effect.
+    const { width, height } = rect()
+    const path: [number, number][] = [
+      [width * 0.4, height * 0.35],
+      [width * 0.6, height * 0.35],
+      [width * 0.5, height * 0.55],
+    ]
+    path.forEach(([x, y], index) => timers.push(window.setTimeout(() => moveTo(x, y), 1400 + index * 650)))
+    timers.push(window.setTimeout(() => moveTo(-999, -999), 1400 + path.length * 650 + 300))
+
+    window.addEventListener('touchstart', onTouch, { passive: true })
+    window.addEventListener('touchmove', onTouch, { passive: true })
+    window.addEventListener('touchend', onEnd, { passive: true })
+    return () => {
+      window.removeEventListener('touchstart', onTouch)
+      window.removeEventListener('touchmove', onTouch)
+      window.removeEventListener('touchend', onEnd)
+      timers.forEach(window.clearTimeout)
+      window.clearTimeout(releaseTimer)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={revealRef}
+      className="spotlight-reveal pointer-events-none absolute inset-x-0 top-0 z-30 aspect-video bg-cover bg-center bg-no-repeat sm:inset-0 sm:aspect-auto"
+      style={{ backgroundImage: `url(${image})` }}
+      aria-hidden="true"
+    />
+  )
+}
+
 export function Hero() {
-  // Touch devices have no cursor, so skip the effect and its 130 KB image entirely.
+  // Mouse devices follow the cursor; touch devices follow a finger (see TouchReveal).
   const [hasFinePointer] = useState(() => window.matchMedia(FINE_POINTER).matches)
 
   return (
@@ -79,8 +165,8 @@ export function Hero() {
         className="hero-zoom relative z-10 block aspect-video w-full object-cover sm:absolute sm:inset-0 sm:aspect-auto sm:h-full sm:object-center"
         fetchPriority="high"
       />
-      <div className="pointer-events-none absolute inset-x-0 top-[calc(100vw*9/16-4rem)] z-20 h-16 bg-gradient-to-b from-transparent to-black sm:hidden" aria-hidden="true" />
-      {hasFinePointer && <RevealLayer image="/images/Reveal_image.webp" radius={SPOTLIGHT_RADIUS} />}
+      <div className="pointer-events-none absolute inset-x-0 top-[calc(100vw*9/16-4rem)] z-[35] h-16 bg-gradient-to-b from-transparent to-black sm:hidden" aria-hidden="true" />
+      {hasFinePointer ? <RevealLayer image="/images/Reveal_image.webp" radius={SPOTLIGHT_RADIUS} /> : <TouchReveal image="/images/Reveal_image.webp" />}
 
       <div className="relative z-50 flex flex-col items-start px-5 pt-2 text-left sm:absolute sm:left-12 sm:top-1/2 sm:-translate-y-1/2 sm:pt-0 md:left-20">
         <h1 className="leading-[0.95] text-white">
