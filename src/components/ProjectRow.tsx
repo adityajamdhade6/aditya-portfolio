@@ -5,7 +5,7 @@ import { projectNumber, type Project } from '../data/projects'
 export function ProjectRow({ project, onOpen }: { project: Project; onOpen: (slug: string) => void }) {
   return (
     <li>
-      <button type="button" onClick={() => onOpen(project.slug)} className="project-row group">
+      <button type="button" onClick={() => onOpen(project.slug)} data-cursor="View" className="project-row group">
         <span className="hidden text-xs text-[#d98c88] sm:block">{projectNumber(project)}</span>
         <span className="min-w-0">
           <span className="block font-playfair text-xl italic tracking-[-0.03em] text-white sm:text-2xl">{project.title}</span>

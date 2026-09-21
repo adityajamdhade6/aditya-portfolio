@@ -13,7 +13,7 @@ export function ProjectCover({ project, eager = false }: { project: Project; eag
 
   return (
     <div className="cover">
-      {thumb && <img src={thumb} alt={`${title} cover`} loading={loading} decoding="async" sizes={SIZES} />}
+      {thumb && <img src={thumb} alt={`${title} cover`} loading={loading} decoding="async" sizes={SIZES} data-parallax={eager ? undefined : 14} />}
     </div>
   )
 }

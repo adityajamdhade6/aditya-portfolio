@@ -30,6 +30,9 @@ export function ProjectCard({ project, variant = 'default', reverse = false, onO
       <p className="text-xs uppercase tracking-[0.2em] text-white/55">
         <span className="mr-3 text-[#d98c88]">{number}</span>
         {kicker}
+        {project.kind && (
+          <span className="ml-3 inline-block rounded-full border border-white/20 px-2.5 py-0.5 align-middle text-[0.65rem] tracking-[0.14em] text-white/70">{project.kind}</span>
+        )}
       </p>
       <div className="mt-4 flex items-start justify-between gap-6">
         <h3 className={`font-playfair italic tracking-[-0.04em] text-white ${TITLE_CLASS[variant]}`}>
@@ -57,7 +60,7 @@ export function ProjectCard({ project, variant = 'default', reverse = false, onO
   )
 
   return (
-    <article className={`project-card ${isFeatured ? 'grid items-center gap-8 lg:grid-cols-[1.35fr_1fr] lg:gap-16' : ''}`}>
+    <article data-cursor="View" className={`project-card ${isFeatured ? 'grid items-center gap-8 lg:grid-cols-[1.35fr_1fr] lg:gap-16' : ''}`}>
       <div className={isFeatured && reverse ? 'lg:order-2' : ''}>
         <ProjectCover project={project} />
       </div>

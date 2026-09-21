@@ -155,7 +155,10 @@ function CaseBody({ project, study }: { project: Project; study: CaseStudy }) {
 
   const header = (
     <div className="min-w-0">
-      <p className="text-xs uppercase tracking-[0.2em] text-[#d98c88]">{study.subtitle}</p>
+      <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.2em] text-[#d98c88]">
+        {study.subtitle}
+        {project.kind && <span className="rounded-full border border-[#d98c88]/50 px-3 py-1 tracking-[0.14em]">{project.kind}</span>}
+      </p>
       <h2 id="project-dialog-title" className="mt-4 font-playfair text-[2rem] italic leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-6xl">
         {project.title}
       </h2>
@@ -214,16 +217,21 @@ function CaseBody({ project, study }: { project: Project; study: CaseStudy }) {
       )}
 
       <div className={isPoster || project.metric ? '' : 'mt-6'}>
-        <Block title="Overview">
+        <Block title="At a glance">
+          <div className="grid max-w-4xl gap-8 md:grid-cols-2 md:gap-12">
+            <div>
+              <Eyebrow>The problem</Eyebrow>
+              <p className="mt-3 text-base leading-8 text-white/80 sm:text-lg">{study.problem}</p>
+            </div>
+            <div>
+              <Eyebrow>The solution</Eyebrow>
+              <p className="mt-3 text-base leading-8 text-white/80 sm:text-lg">{study.solution}</p>
+            </div>
+          </div>
+        </Block>
+
+        <Block title="The story">
           <Paragraphs items={study.overview} />
-        </Block>
-
-        <Block title="The problem">
-          <p className="max-w-3xl text-lg leading-8 text-white/80 sm:text-xl sm:leading-9">{study.problem}</p>
-        </Block>
-
-        <Block title="The solution">
-          <p className="max-w-3xl text-lg leading-8 text-white/80 sm:text-xl sm:leading-9">{study.solution}</p>
         </Block>
 
         {study.features.length > 0 && (

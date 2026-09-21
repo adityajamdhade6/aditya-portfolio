@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
+import { RevealHeading } from '../components/RevealHeading'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { EMAIL, SERVICES } from '../data/site'
 
@@ -8,10 +9,8 @@ export function Collaborate() {
       <div className="section-shell">
         <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24">
           <ScrollReveal>
-            <span className="eyebrow">05 / Collaborate</span>
-            <h2 className="section-heading mt-5">
-              Bring the <em>unusual</em> idea.
-            </h2>
+            <span className="eyebrow">06 / Collaborate</span>
+            <RevealHeading className="section-heading mt-5" parts={[{ text: 'Bring the' }, { text: 'unusual', accent: true }, { text: 'idea.' }]} />
           </ScrollReveal>
           <ScrollReveal>
             <ul className="border-t border-white/15">

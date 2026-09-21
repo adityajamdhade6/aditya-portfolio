@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { NAV_LINKS } from '../data/site'
+import { newsletter } from '../data/writing'
 
 const SECTION_IDS = ['hero', ...NAV_LINKS.map((link) => link.id), 'contact']
 
@@ -8,6 +9,8 @@ export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState<string>('hero')
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [pill, setPill] = useState<{ left: number; width: number } | null>(null)
 
   useEffect(() => {
     let frame = 0
@@ -39,6 +42,17 @@ export function Nav() {
     }
   }, [])
 
+  // Slide one highlight behind the active link instead of swapping backgrounds.
+  useLayoutEffect(() => {
+    const place = () => {
+      const link = trackRef.current?.querySelector<HTMLElement>(`[data-nav="${active}"]`)
+      setPill(link ? { left: link.offsetLeft, width: link.offsetWidth } : null)
+    }
+    place()
+    window.addEventListener('resize', place)
+    return () => window.removeEventListener('resize', place)
+  }, [active])
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setMenuOpen(false)
@@ -60,14 +74,16 @@ export function Nav() {
           <span className="text-sm font-semibold tracking-[0.18em]">ADITYA</span>
         </a>
 
-        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/25 bg-white/15 px-2 py-2 backdrop-blur-md md:flex">
+        <div ref={trackRef} className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/25 bg-white/15 px-2 py-2 backdrop-blur-md md:flex">
+          <span className="nav-pill" style={pill ? { left: pill.left, width: pill.width, opacity: 1 } : { opacity: 0 }} aria-hidden="true" />
           {NAV_LINKS.map(({ id, label }) => (
             <a
               key={id}
               href={`#${id}`}
+              data-nav={id}
               aria-current={active === id ? 'true' : undefined}
-              className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors lg:px-4 ${
-                active === id ? 'bg-white/20 text-white' : 'text-white/75 hover:bg-white/15 hover:text-white'
+              className={`relative z-10 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors lg:px-4 ${
+                active === id ? 'text-white' : 'text-white/75 hover:bg-white/10 hover:text-white'
               }`}
             >
               {label}
@@ -75,9 +91,20 @@ export function Nav() {
           ))}
         </div>
 
-        <a href="#contact" className="hidden rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-200 md:block">
-          Let's Create
-        </a>
+        <div className="hidden items-center gap-2 md:flex">
+          <a
+            href={newsletter.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-magnetic
+            className="magnetic btn-shine hidden rounded-full bg-[#0A66C2] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0b78e3] lg:block"
+          >
+            Subscribe
+          </a>
+          <a href="#contact" data-magnetic className="magnetic btn-shine btn-shine-dark rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-200">
+            Let's Create
+          </a>
+        </div>
 
         <button
           type="button"
@@ -103,6 +130,15 @@ export function Nav() {
               {label}
             </a>
           ))}
+          <a
+            href={newsletter.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="rounded-xl px-4 py-3.5 text-base text-[#5aa9f0] transition-colors hover:bg-white/10"
+          >
+            Subscribe to the newsletter
+          </a>
         </div>
       )}
     </header>

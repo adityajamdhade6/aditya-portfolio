@@ -156,15 +156,31 @@ body {
   position: relative;
 }
 
+.cover {
+  clip-path: inset(0 0 0 0 round 8px);
+  transition: clip-path 1.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 600ms;
+}
+
 .cover img {
   display: block;
+  filter: saturate(0.78) brightness(0.96);
   height: 100%;
   object-fit: cover;
-  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  scale: 1.08;
+  transition: scale 1.6s cubic-bezier(0.16, 1, 0.3, 1), filter 800ms cubic-bezier(0.16, 1, 0.3, 1), translate 120ms linear;
   width: 100%;
 }
 
-.project-card:hover .cover img { transform: scale(1.035); }
+/* Wipe the cover open and settle the image when its card scrolls in. */
+.scroll-reveal:not(.is-visible) .cover { clip-path: inset(0 0 100% 0 round 8px); }
+.scroll-reveal:not(.is-visible) .cover img { scale: 1.26; }
+
+.project-card:hover .cover { box-shadow: 0 40px 80px -30px rgb(154 69 73 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.16); }
+.project-card:hover .cover img { filter: saturate(1.08) brightness(1.03); scale: 1.14; }
+
+/* The popup shows the cover at rest, ungraded. */
+.project-panel .cover { clip-path: none; }
+.project-panel .cover img { filter: none; scale: 1; }
 
 .poster-cover {
   border-radius: 4px;
@@ -408,4 +424,222 @@ a:focus-visible > .experience-row { outline: 2px solid #d69591; outline-offset: 
 
 @media (hover: none), (pointer: coarse) {
   .cursor-glow, .cursor-ring { display: none; }
+}
+
+/* ---------- LinkedIn row ---------- */
+
+.linkedin-row { scrollbar-color: rgb(255 255 255 / 0.25) transparent; scrollbar-width: thin; }
+
+/* =====================================================================
+   Premium finish: texture, light, motion
+   ===================================================================== */
+
+::selection { background: #c9736f; color: #140c0c; }
+
+html { scrollbar-color: rgb(255 255 255 / 0.22) #090707; scrollbar-width: thin; }
+
+/* Film grain over everything: gives the flat dark surfaces some tooth. */
+body::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  content: '';
+  inset: 0;
+  opacity: 0.045;
+  pointer-events: none;
+  position: fixed;
+  z-index: 95;
+}
+
+/* A soft wine light falling from the top of each section. */
+.portfolio-section {
+  background-image: radial-gradient(75% 46% at 50% -6%, rgb(154 69 73 / 0.14), transparent 72%);
+}
+
+/* Reading progress hairline */
+.scroll-progress {
+  height: 2px;
+  inset: 0 0 auto 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 110;
+}
+.scroll-progress span {
+  background: linear-gradient(90deg, #7d2f34, #e2a7a3);
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* ---------- Heading word reveal ---------- */
+
+.rh-word {
+  display: inline-block;
+  margin: -0.06em -0.1em -0.2em -0.03em;
+  overflow: hidden;
+  padding: 0.06em 0.1em 0.2em 0.03em;
+  vertical-align: top;
+}
+.rh-inner {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(108%) rotate(3deg);
+  transform-origin: 0 100%;
+  transition: transform 1.15s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 75ms), opacity 0.7s ease calc(var(--i, 0) * 75ms);
+}
+.reveal-heading.is-in .rh-inner { opacity: 1; transform: none; }
+
+/* ---------- Cursor label ("View", "Read"...) ---------- */
+
+.cursor-ring { align-items: center; display: flex; justify-content: center; }
+.cursor-label {
+  color: #140c0c;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  opacity: 0;
+  text-transform: uppercase;
+  transition: opacity 200ms;
+}
+.cursor-ring[data-label='true'] {
+  background: #fff;
+  border-color: #fff;
+  height: 88px;
+  width: 88px;
+}
+.cursor-ring[data-label='true'] .cursor-label { opacity: 1; }
+
+/* ---------- Cards that catch the light ---------- */
+
+.glow-card { position: relative; }
+.glow-card::before {
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%), rgb(232 160 156 / 0.6), transparent 46%);
+  border-radius: inherit;
+  content: '';
+  inset: 0;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  padding: 1px;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 400ms;
+}
+.glow-card::after {
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgb(201 115 111 / 0.09), transparent 60%);
+  border-radius: inherit;
+  content: '';
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 400ms;
+}
+.glow-card:hover::before,
+.glow-card:hover::after { opacity: 1; }
+
+/* ---------- Buttons ---------- */
+
+.magnetic { transition: translate 600ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms, color 300ms, border-color 300ms; }
+
+.btn-shine { isolation: isolate; overflow: hidden; position: relative; }
+.btn-shine::after {
+  background: linear-gradient(110deg, transparent 32%, rgb(255 255 255 / 0.4) 50%, transparent 68%);
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-130%);
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-shine:hover::after { transform: translateX(130%); }
+.btn-shine-dark::after { background: linear-gradient(110deg, transparent 32%, rgb(154 69 73 / 0.28) 50%, transparent 68%); }
+
+/* ---------- Marquee ---------- */
+
+.marquee {
+  background: #090707;
+  border-block: 1px solid rgb(255 255 255 / 0.1);
+  overflow: hidden;
+  padding: 1.5rem 0;
+}
+.marquee-track { animation: marquee 46s linear infinite; display: flex; width: max-content; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-group { display: flex; flex: none; list-style: none; margin: 0; padding: 0; }
+.marquee-group li {
+  align-items: center;
+  color: rgb(255 255 255 / 0.9);
+  display: flex;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+  font-style: italic;
+  gap: clamp(1.5rem, 3.5vw, 3.5rem);
+  letter-spacing: -0.04em;
+  padding-right: clamp(1.5rem, 3.5vw, 3.5rem);
+  white-space: nowrap;
+}
+.marquee-accent { color: #c9736f; }
+.marquee-dot { color: rgb(255 255 255 / 0.28); font-size: 0.4em; font-style: normal; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Nav: sliding active pill ---------- */
+
+.nav-pill {
+  background: rgb(255 255 255 / 0.2);
+  border-radius: 999px;
+  bottom: 0.5rem;
+  pointer-events: none;
+  position: absolute;
+  top: 0.5rem;
+  transition: left 500ms cubic-bezier(0.16, 1, 0.3, 1), width 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms;
+}
+
+/* ---------- Footer wordmark ---------- */
+
+.wordmark {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0.03) 78%, transparent 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: min(20.5vw, 21rem);
+  font-weight: 600;
+  letter-spacing: -0.075em;
+  line-height: 0.86;
+  overflow: hidden;
+  padding: 0.06em 0 0.08em;
+  text-align: center;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .rh-inner { opacity: 1; transform: none; transition: none; }
+  .cover, .cover img, .nav-pill, .magnetic, .btn-shine::after { transition: none; }
+  .scroll-reveal:not(.is-visible) .cover { clip-path: inset(0 0 0 0 round 8px); }
+  .scroll-reveal:not(.is-visible) .cover img { scale: 1.08; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .glow-card::before, .glow-card::after { display: none; }
+}
+
+/* One continuous dark surface: the light and a fading hairline mark each section instead of a colour step. */
+.portfolio-section {
+  background-color: #0b0707;
+  position: relative;
+}
+.portfolio-section::before {
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.16), transparent);
+  content: '';
+  height: 1px;
+  left: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  width: min(1120px, 88%);
+}
+#contact.portfolio-section {
+  background-color: #100808;
+  background-image: radial-gradient(80% 60% at 50% -4%, rgb(154 69 73 / 0.24), transparent 72%);
 }

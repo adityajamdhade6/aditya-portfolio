@@ -1,16 +1,15 @@
 import { ArrowUpRight } from 'lucide-react'
+import { RevealHeading } from '../components/RevealHeading'
 import { ScrollReveal } from '../components/ScrollReveal'
-import { EMAIL, RESUME, SOCIALS } from '../data/site'
+import { EMAIL, SOCIALS } from '../data/site'
 
 export function Contact() {
   return (
     <section id="contact" className="portfolio-section bg-[#160909] text-white">
       <div className="section-shell">
         <ScrollReveal>
-          <span className="eyebrow">06 / Contact</span>
-          <h2 className="contact-heading mt-8">
-            Let's Create <em>Something.</em>
-          </h2>
+          <span className="eyebrow">07 / Contact</span>
+          <RevealHeading className="contact-heading mt-8" parts={[{ text: "Let's Create" }, { text: 'Something.', accent: true }]} />
         </ScrollReveal>
 
         <ScrollReveal className="mt-16 sm:mt-20">
@@ -21,15 +20,6 @@ export function Contact() {
         </ScrollReveal>
 
         <ScrollReveal className="mt-14 flex flex-wrap gap-3 border-t border-white/20 pt-8">
-          <a
-            href={RESUME}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#160909] transition-colors hover:bg-gray-200"
-          >
-            Résumé
-            <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true" />
-          </a>
           {SOCIALS.map(({ label, href }) => (
             <a
               key={label}

@@ -1,4 +1,5 @@
 import { Database } from 'lucide-react'
+import { RevealHeading } from '../components/RevealHeading'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { tools } from '../data/tools'
 
@@ -7,10 +8,8 @@ export function Toolkit() {
     <section id="toolkit" className="portfolio-section bg-[#0c0808] text-white">
       <div className="section-shell">
         <ScrollReveal className="mb-10 md:mb-14">
-          <span className="eyebrow">04 / Toolkit</span>
-          <h2 className="section-heading mt-5">
-            What I <em>build with.</em>
-          </h2>
+          <span className="eyebrow">05 / Toolkit</span>
+          <RevealHeading className="section-heading mt-5" parts={[{ text: 'What I' }, { text: 'build with.', accent: true }]} />
         </ScrollReveal>
 
         <ScrollReveal>
@@ -18,7 +17,7 @@ export function Toolkit() {
             {tools.map((tool) => (
               <li
                 key={tool.name}
-                className="flex items-center gap-3 rounded-lg border border-white/12 bg-white/[0.03] px-3 py-3 text-sm text-white/80 transition-colors hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
+                className="glow-card flex items-center gap-3 rounded-lg border border-white/12 bg-white/[0.03] px-3 py-3 text-sm text-white/80 transition-[color,background-color,border-color,transform] duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
               >
                 <span className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-white">
                   {tool.logo ? (

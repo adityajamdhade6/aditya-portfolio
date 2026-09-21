@@ -1,4 +1,3 @@
-// Generated from the previous portfolio's case-study pages, then curated. Edit freely.
 export type CaseImage = { src: string; alt: string; caption?: string }
 export type CaseFeature = { title: string; problem: string; solution: string }
 export type CaseSection = {
@@ -57,14 +56,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         "solution": "An AI-powered insights panel analyzed operational metrics, highlighted unusual patterns, summarized business performance, and suggested areas requiring attention, helping founders move from reporting to decision-making."
       }
     ],
-    "sections": [],
-    "gallery": [
-      {
-        "src": "/images/case/gallery/founderos-cover.webp",
-        "alt": "FounderOS original case-study cover",
-        "caption": "Original case-study cover"
-      }
-    ]
+    "sections": []
   },
   "ai-feedback-analyst": {
     "subtitle": "AI Product",
@@ -91,14 +83,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         "solution": "The dashboard automatically clusters related issues, prioritizes customer pain points, generates PRDs, and visualizes product trends across six dashboards, enabling faster roadmap planning."
       }
     ],
-    "sections": [],
-    "gallery": [
-      {
-        "src": "/images/case/gallery/aianalyst-cover.webp",
-        "alt": "AI Analyst original case-study cover",
-        "caption": "Original case-study cover"
-      }
-    ]
+    "sections": []
   },
   "instamart-aov": {
     "subtitle": "UX Research & AOV Optimization",
@@ -120,14 +105,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         "solution": "Grouped items by recipe (e.g. adding lemon/sugar when tea is in the cart) to increase cross-sell conversion rates by relevance."
       }
     ],
-    "sections": [],
-    "gallery": [
-      {
-        "src": "/images/case/gallery/instamart-cover.webp",
-        "alt": "Swiggy Instamart original case-study cover",
-        "caption": "Original case-study cover"
-      }
-    ]
+    "sections": []
   },
   "zomato-aov": {
     "subtitle": "Customer Segmentation",
@@ -149,14 +127,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         "solution": "Built user profiles grouping ordering hours, budget size, and review history to automate persona-specific discounts."
       }
     ],
-    "sections": [],
-    "gallery": [
-      {
-        "src": "/images/case/gallery/zomato-aov-cover.webp",
-        "alt": "Zomato AOV original case-study cover",
-        "caption": "Original case-study cover"
-      }
-    ]
+    "sections": []
   },
   "zomato-text-reviews": {
     "subtitle": "Product PRD & NLP Strategy",
@@ -189,13 +160,6 @@ export const caseStudies: Record<string, CaseStudy> = {
       }
     ],
     "sections": [],
-    "gallery": [
-      {
-        "src": "/images/case/gallery/zomato-reviews-cover.webp",
-        "alt": "Zomato text reviews original case-study cover",
-        "caption": "Original case-study cover"
-      }
-    ],
     "documents": [
       {
         "title": "Product requirements document",
@@ -258,13 +222,6 @@ export const caseStudies: Record<string, CaseStudy> = {
       }
     ],
     "sections": [],
-    "gallery": [
-      {
-        "src": "/images/case/gallery/vantage-cover.webp",
-        "alt": "Vantage AI original case-study cover",
-        "caption": "Original case-study cover"
-      }
-    ],
     "links": [
       {
         "label": "Visit thevantageai.com",

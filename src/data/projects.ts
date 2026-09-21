@@ -15,6 +15,8 @@ export type Project = {
   image?: string
   /** One headline number, shown on the card and in the detail view. */
   metric?: { value: string; label: string }
+  /** Honest origin of the work, shown as a small tag: Shipped, Client work, Hackathon, Concept... */
+  kind?: string
 }
 
 const thumb = (name: string) => `/images/thumbs/${name}.webp`
@@ -23,6 +25,7 @@ const poster = (name: string) => `/images/graphic-design/${name}.webp`
 export const projects: Project[] = [
   {
     slug: 'founderos',
+    kind: 'Shipped',
     group: 'product',
     title: 'FounderOS: Business Automation Hub',
     category: 'AI / Shopify / Operations',
@@ -33,6 +36,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'ai-feedback-analyst',
+    kind: 'University project',
     group: 'product',
     title: 'AI Feedback Analyst System',
     category: 'AI & RAG / Vector Search',
@@ -43,6 +47,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'instamart-aov',
+    kind: 'Concept',
     group: 'product',
     title: 'Swiggy Instamart UX & AOV Case Study',
     category: 'UX Research / Product Strategy',
@@ -73,6 +78,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'greenscan',
+    kind: 'Hackathon winner',
     group: 'product',
     title: 'AI GreenScan: Eco-Classification App',
     category: 'AI Product / Computer Vision',
@@ -83,6 +89,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'porter-driver-retention',
+    kind: 'Concept',
     group: 'product',
     title: 'Porter: Driver Retention Strategy',
     category: 'Marketplace Ops / Data Strategy',
@@ -93,6 +100,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'nurture',
+    kind: 'Personal project',
     group: 'product',
     title: 'Nurture: A Plant Care Companion',
     category: 'UI/UX Design / Mobile App',
@@ -103,6 +111,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'inhaus-coffee',
+    kind: 'Shipped',
     group: 'product',
     title: 'INHAUS Coffee: Brand Launch & D2C Growth',
     category: 'Co-Founder / Growth Marketing',
@@ -113,6 +122,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'zupper',
+    kind: 'Client work',
     group: 'product',
     title: 'Zupper: B2B Marketplace UI/UX Design',
     category: 'B2B SaaS / Mobile App',
@@ -161,6 +171,7 @@ export const projects: Project[] = [
 
   {
     slug: 'zomato-aov',
+    kind: 'Concept',
     group: 'experiment',
     title: 'Zomato: Increasing AOV',
     category: 'Product Strategy / Growth',
@@ -170,6 +181,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'zomato-text-reviews',
+    kind: 'Concept',
     group: 'experiment',
     title: 'Zomato: Increasing Text Reviews',
     category: 'Product PRD / Speech-to-Text',
@@ -180,6 +192,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'mesa-hackathon',
+    kind: 'Hackathon',
     group: 'experiment',
     title: 'MESA Hackathon: AI Wedding Planner',
     category: 'AI Matching / Product Design',

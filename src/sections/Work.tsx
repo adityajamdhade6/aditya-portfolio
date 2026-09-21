@@ -1,17 +1,18 @@
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 import { ProjectCard } from '../components/ProjectCard'
 import { ProjectRow } from '../components/ProjectRow'
+import { RevealHeading, type HeadingPart } from '../components/RevealHeading'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { projectsByGroup } from '../data/projects'
 
 type WorkProps = { onOpen: (slug: string) => void }
 
-function SubIntro({ eyebrow, heading }: { eyebrow: string; heading: ReactNode }) {
+function SubIntro({ eyebrow, parts }: { eyebrow: string; parts: HeadingPart[] }) {
   return (
     <ScrollReveal className="mb-8 mt-20 flex flex-col justify-between gap-5 border-t border-white/15 pt-8 md:mb-14 md:mt-32 md:flex-row md:items-end md:gap-7 md:pt-10">
       <div>
         <span className="eyebrow">{eyebrow}</span>
-        <h3 className="section-heading mt-4 !text-4xl sm:!text-6xl">{heading}</h3>
+        <RevealHeading as="h3" className="section-heading mt-4 !text-4xl sm:!text-6xl" parts={parts} />
       </div>
     </ScrollReveal>
   )
@@ -29,10 +30,8 @@ export function Work({ onOpen }: WorkProps) {
       <div className="section-shell">
         <ScrollReveal className="mb-10 flex flex-col justify-between gap-5 md:mb-20 md:flex-row md:items-end md:gap-7">
           <div>
-            <span className="eyebrow">03 / Selected work</span>
-            <h2 className="section-heading mt-5">
-              Made for the <em className="whitespace-nowrap">in-between.</em>
-            </h2>
+            <span className="eyebrow">02 / Selected work</span>
+            <RevealHeading className="section-heading mt-5" parts={[{ text: 'Made for the' }, { text: 'in-between.', accent: true }]} />
           </div>
         </ScrollReveal>
 
@@ -67,11 +66,7 @@ export function Work({ onOpen }: WorkProps) {
 
         <SubIntro
           eyebrow="Graphic design"
-          heading={
-            <>
-              The <em>visual</em> archive.
-            </>
-          }
+          parts={[{ text: 'The' }, { text: 'visual', accent: true }, { text: 'archive.' }]}
         />
 
         <div className="grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4 lg:gap-x-8">
@@ -84,11 +79,7 @@ export function Work({ onOpen }: WorkProps) {
 
         <SubIntro
           eyebrow="Experiments"
-          heading={
-            <>
-              The <em>side quests.</em>
-            </>
-          }
+          parts={[{ text: 'The' }, { text: 'side quests.', accent: true }]}
         />
 
         <div className="grid gap-x-10 gap-y-12 md:grid-cols-3 md:gap-y-16">
@@ -101,11 +92,7 @@ export function Work({ onOpen }: WorkProps) {
 
         <SubIntro
           eyebrow="Data & ML"
-          heading={
-            <>
-              Also on the <em>bench.</em>
-            </>
-          }
+          parts={[{ text: 'Also on the' }, { text: 'bench.', accent: true }]}
         />
 
         <ScrollReveal>

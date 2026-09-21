@@ -9,6 +9,7 @@ const FINE_POINTER = '(hover: hover) and (pointer: fine)'
 export function CursorGlow() {
   const glowRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const glow = glowRef.current
@@ -44,6 +45,9 @@ export function CursorGlow() {
       const el = event.target instanceof Element ? event.target : null
       setVisible(!el?.closest('#hero'))
       ring.dataset.active = el?.closest('a, button, [role="button"]') ? 'true' : 'false'
+      const labelled = el?.closest<HTMLElement>('[data-cursor]')
+      ring.dataset.label = labelled ? 'true' : 'false'
+      if (labelled && labelRef.current && labelRef.current.textContent !== labelled.dataset.cursor) labelRef.current.textContent = labelled.dataset.cursor ?? ''
       target.x = event.clientX
       target.y = event.clientY
       if (!frame) frame = requestAnimationFrame(tick)
@@ -62,7 +66,9 @@ export function CursorGlow() {
   return (
     <>
       <div ref={glowRef} className="cursor-glow" aria-hidden="true" />
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
+      <div ref={ringRef} className="cursor-ring" aria-hidden="true">
+        <span ref={labelRef} className="cursor-label" />
+      </div>
     </>
   )
 }

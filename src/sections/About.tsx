@@ -1,6 +1,5 @@
-import { Download } from 'lucide-react'
+import { RevealHeading } from '../components/RevealHeading'
 import { ScrollReveal } from '../components/ScrollReveal'
-import { RESUME } from '../data/site'
 
 export function About() {
   return (
@@ -13,19 +12,10 @@ export function About() {
           </ScrollReveal>
 
           <ScrollReveal className="max-w-5xl">
-            <h2 className="display-heading">
-              AI creator and developer building products, automations and brand systems <em>end to end.</em>
-            </h2>
-
-            <a
-              href={RESUME}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-10 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-200 sm:w-auto"
-            >
-              Download résumé <Download size={16} strokeWidth={2} aria-hidden="true" />
-            </a>
-
+            <RevealHeading
+              className="display-heading"
+              parts={[{ text: 'AI creator and developer building products, automations and brand systems' }, { text: 'end to end.', accent: true }]}
+            />
           </ScrollReveal>
         </div>
       </div>
