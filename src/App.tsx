@@ -1,3 +1,4 @@
+import { CursorGlow } from './components/CursorGlow'
 import { Hero } from './components/Hero'
 import { Nav } from './components/Nav'
 import { ProjectModal } from './components/ProjectModal'
@@ -6,6 +7,7 @@ import { About } from './sections/About'
 import { Collaborate } from './sections/Collaborate'
 import { Contact } from './sections/Contact'
 import { Experience } from './sections/Experience'
+import { Toolkit } from './sections/Toolkit'
 import { Work } from './sections/Work'
 import { useProjectRoute } from './useProjectRoute'
 
@@ -15,12 +17,17 @@ function App() {
 
   return (
     <>
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+      <CursorGlow />
       <Nav />
-      <main>
+      <main id="main">
         <Hero />
         <About />
-        <Work onOpen={open} />
         <Experience />
+        <Work onOpen={open} />
+        <Toolkit />
         <Collaborate />
         <Contact />
       </main>

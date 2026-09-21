@@ -7,7 +7,7 @@ export function Contact() {
     <section id="contact" className="portfolio-section bg-[#160909] text-white">
       <div className="section-shell">
         <ScrollReveal>
-          <span className="eyebrow">05 / Contact</span>
+          <span className="eyebrow">06 / Contact</span>
           <h2 className="contact-heading mt-8">
             Let's Create <em>Something.</em>
           </h2>

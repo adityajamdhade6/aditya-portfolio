@@ -71,30 +71,56 @@ export function Hero() {
   const [hasFinePointer] = useState(() => window.matchMedia(FINE_POINTER).matches)
 
   return (
-    <section id="hero" className="relative h-screen w-full overflow-hidden bg-black" style={{ height: '100dvh' }}>
+    <section id="hero" className="relative w-full overflow-hidden bg-black sm:h-dvh">
+      {/* Phones show the whole landscape photo with the text underneath; from sm up it fills the screen. */}
       <img
         src="/images/Base_image.webp"
         alt="Portrait of Aditya Jamdhade"
-        className="hero-zoom absolute inset-0 z-10 h-full w-full object-cover object-center"
+        className="hero-zoom relative z-10 block aspect-video w-full object-cover sm:absolute sm:inset-0 sm:aspect-auto sm:h-full sm:object-center"
         fetchPriority="high"
       />
+      <div className="pointer-events-none absolute inset-x-0 top-[calc(100vw*9/16-4rem)] z-20 h-16 bg-gradient-to-b from-transparent to-black sm:hidden" aria-hidden="true" />
       {hasFinePointer && <RevealLayer image="/images/Reveal_image.webp" radius={SPOTLIGHT_RADIUS} />}
 
-      <div className="absolute left-0 top-1/2 z-50 flex -translate-y-1/2 flex-col items-start px-5 text-left sm:left-12 md:left-20">
+      <div className="relative z-50 flex flex-col items-start px-5 pt-2 text-left sm:absolute sm:left-12 sm:top-1/2 sm:-translate-y-1/2 sm:pt-0 md:left-20">
         <h1 className="leading-[0.95] text-white">
-          <span className="hero-anim hero-reveal block font-playfair text-5xl font-normal italic sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.05em', animationDelay: '0.25s' }}>I'm</span>
-          <span className="hero-anim hero-reveal -mt-1 block text-5xl font-normal sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.08em', animationDelay: '0.42s' }}>ADITYA</span>
+          <span className="hero-anim hero-reveal block font-playfair text-6xl font-normal italic sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.05em', animationDelay: '0.25s' }}>I'm</span>
+          <span className="hero-anim hero-reveal -mt-1 block text-6xl font-normal sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.08em', animationDelay: '0.42s' }}>ADITYA</span>
         </h1>
-        <span className="hero-anim hero-reveal mt-3 font-playfair text-base italic text-white/90 sm:mt-4 sm:text-lg md:text-xl" style={{ letterSpacing: '-0.02em', animationDelay: '0.58s' }}>AI CREATOR &amp; DEVELOPER</span>
+        <span className="hero-anim hero-reveal mt-3 font-playfair text-lg italic text-white/90 sm:mt-4 md:text-xl" style={{ letterSpacing: '-0.02em', animationDelay: '0.58s' }}>AI CREATOR &amp; DEVELOPER</span>
       </div>
 
-      <p className="hero-anim hero-fade absolute bottom-14 left-12 z-50 hidden max-w-[260px] text-sm leading-relaxed text-white/80 sm:block md:left-[100px]" style={{ animationDelay: '0.7s' }}>
-        AI products, automations and brand systems, from first research to shipped code.
+      <p className="hero-anim hero-fade relative z-50 mt-6 max-w-[21rem] px-5 text-sm leading-relaxed text-white/80 sm:absolute sm:bottom-14 sm:left-12 sm:mt-0 sm:max-w-[17rem] sm:px-0 md:left-[100px]" style={{ animationDelay: '0.7s' }}>
+        I build AI-powered products and brands. Obsessed with systems, growth and work that actually ships.
       </p>
 
-      <p className="hero-anim hero-fade absolute bottom-10 left-5 right-5 z-50 max-w-full text-xs leading-relaxed text-white/80 sm:bottom-24 sm:left-auto sm:right-10 sm:max-w-[260px] sm:text-sm md:right-14" style={{ animationDelay: '0.85s' }}>
-        Co-founder of INHAUS Coffee. Applied AI at IIT Jodhpur.
-      </p>
+      <div className="hero-anim hero-fade relative z-50 mt-6 px-5 sm:absolute sm:bottom-14 sm:left-auto sm:right-10 sm:mt-0 sm:max-w-[19rem] sm:px-0 md:right-14" style={{ animationDelay: '0.85s' }}>
+        <p className="font-playfair text-xl italic leading-snug text-white/90 sm:whitespace-nowrap sm:text-2xl sm:text-right" style={{ letterSpacing: '-0.02em' }}>
+          Co-founder of <span className="not-italic font-sans font-semibold tracking-[0.02em] text-white">INHAUS</span> Coffee.
+        </p>
+        <p className="mt-2 text-sm leading-relaxed text-white/75 sm:text-right">
+          Building with AI every day, from the first idea to the first customer.
+        </p>
+      </div>
+
+      <div className="hero-anim hero-fade relative z-50 mt-8 flex gap-3 px-5 pb-12 sm:hidden" style={{ animationDelay: '1s' }}>
+        <a href="#portfolio" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-gray-900">
+          View my work
+        </a>
+        <a href="#contact" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-white/30 px-5 text-sm text-white">
+          Get in touch
+        </a>
+      </div>
+
+      <a
+        href="#about"
+        className="hero-anim hero-fade absolute bottom-6 left-1/2 z-50 hidden -translate-x-1/2 flex-col items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-white sm:flex"
+        style={{ animationDelay: '1.1s' }}
+        aria-label="Scroll to About"
+      >
+        Scroll
+        <span className="block h-8 w-px animate-pulse bg-white/60" aria-hidden="true" />
+      </a>
     </section>
   )
 }

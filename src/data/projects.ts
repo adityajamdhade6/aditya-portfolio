@@ -244,8 +244,15 @@ export const groupLabels: Record<Group, string> = {
   archive: 'Data & ML',
 }
 
+/** Case studies lead with shipped, operating work; anything not listed keeps its original order after these. */
+const PRODUCT_PRIORITY = ['founderos', 'inhaus-coffee', 'ai-feedback-analyst', 'zupper']
+const productRank = (slug: string) => {
+  const index = PRODUCT_PRIORITY.indexOf(slug)
+  return index === -1 ? PRODUCT_PRIORITY.length : index
+}
+
 export const projectsByGroup: Record<Group, Project[]> = {
-  product: projects.filter((p) => p.group === 'product'),
+  product: projects.filter((p) => p.group === 'product').sort((a, b) => productRank(a.slug) - productRank(b.slug)),
   graphic: projects.filter((p) => p.group === 'graphic'),
   experiment: projects.filter((p) => p.group === 'experiment'),
   archive: projects.filter((p) => p.group === 'archive'),

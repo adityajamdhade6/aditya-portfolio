@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { ProjectCard } from '../components/ProjectCard'
 import { ProjectRow } from '../components/ProjectRow'
 import { ScrollReveal } from '../components/ScrollReveal'
@@ -6,14 +6,13 @@ import { projectsByGroup } from '../data/projects'
 
 type WorkProps = { onOpen: (slug: string) => void }
 
-function SubIntro({ eyebrow, heading, children }: { eyebrow: string; heading: ReactNode; children: ReactNode }) {
+function SubIntro({ eyebrow, heading }: { eyebrow: string; heading: ReactNode }) {
   return (
     <ScrollReveal className="mb-8 mt-20 flex flex-col justify-between gap-5 border-t border-white/15 pt-8 md:mb-14 md:mt-32 md:flex-row md:items-end md:gap-7 md:pt-10">
       <div>
         <span className="eyebrow">{eyebrow}</span>
         <h3 className="section-heading mt-4 !text-4xl sm:!text-6xl">{heading}</h3>
       </div>
-      <p className="max-w-xs text-sm leading-6 text-white/60">{children}</p>
     </ScrollReveal>
   )
 }
@@ -21,21 +20,20 @@ function SubIntro({ eyebrow, heading, children }: { eyebrow: string; heading: Re
 export function Work({ onOpen }: WorkProps) {
   const { product, graphic, experiment, archive } = projectsByGroup
   const featured = product.slice(0, 2)
-  const caseStudies = product.slice(2)
+  const [showAll, setShowAll] = useState(false)
+  const rest = product.slice(2)
+  const caseStudies = showAll ? rest : rest.slice(0, 4)
 
   return (
     <section id="portfolio" className="portfolio-section bg-[#100909] text-white">
       <div className="section-shell">
         <ScrollReveal className="mb-10 flex flex-col justify-between gap-5 md:mb-20 md:flex-row md:items-end md:gap-7">
           <div>
-            <span className="eyebrow">02 / Selected work</span>
+            <span className="eyebrow">03 / Selected work</span>
             <h2 className="section-heading mt-5">
               Made for the <em className="whitespace-nowrap">in-between.</em>
             </h2>
           </div>
-          <p className="max-w-xs text-sm leading-6 text-white/60">
-            Case studies across AI, product strategy and design. Open any project for the story, the role and the numbers.
-          </p>
         </ScrollReveal>
 
         <div className="flex flex-col gap-14 md:gap-24 lg:gap-32">
@@ -54,6 +52,19 @@ export function Work({ onOpen }: WorkProps) {
           ))}
         </div>
 
+        {rest.length > 4 && (
+          <div className="mt-12 flex justify-center md:mt-16">
+            <button
+              type="button"
+              onClick={() => setShowAll((value) => !value)}
+              aria-expanded={showAll}
+              className="inline-flex min-h-12 items-center rounded-full border border-white/25 px-7 text-sm text-white/85 transition-colors hover:bg-white hover:text-[#160909]"
+            >
+              {showAll ? 'Show fewer case studies' : `Show ${rest.length - 4} more case studies`}
+            </button>
+          </div>
+        )}
+
         <SubIntro
           eyebrow="Graphic design"
           heading={
@@ -61,9 +72,7 @@ export function Work({ onOpen }: WorkProps) {
               The <em>visual</em> archive.
             </>
           }
-        >
-          Posters, type, branding and visual experiments from the creative side of the practice.
-        </SubIntro>
+        />
 
         <div className="grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4 lg:gap-x-8">
           {graphic.map((project, index) => (
@@ -80,9 +89,7 @@ export function Work({ onOpen }: WorkProps) {
               The <em>side quests.</em>
             </>
           }
-        >
-          Smaller product explorations, kept separate from the main case-study work.
-        </SubIntro>
+        />
 
         <div className="grid gap-x-10 gap-y-12 md:grid-cols-3 md:gap-y-16">
           {experiment.map((project, index) => (
@@ -99,9 +106,7 @@ export function Work({ onOpen }: WorkProps) {
               Also on the <em>bench.</em>
             </>
           }
-        >
-          Analytics, modelling and data-engineering projects.
-        </SubIntro>
+        />
 
         <ScrollReveal>
           <ul className="border-t border-white/14">
