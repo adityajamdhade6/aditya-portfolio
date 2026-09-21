@@ -1,35 +1,7 @@
 // Carried over from the previous portfolio.
-export type Education = { year: string; degree: string; inst: string; grade: string }
 export type Experience = { period: string; role: string; company: string; tag: string; bullets: string[] }
 export type SkillGroup = { title: string; items: string[] }
 export type Achievement = { title: string; desc: string }
-
-export const education: Education[] = [
-  {
-    "year": "2025-29",
-    "degree": "B.S. in Applied AI & Data Science",
-    "inst": "Indian Institute of Technology (IIT) Jodhpur",
-    "grade": "8.2 CGPA"
-  },
-  {
-    "year": "2025-28",
-    "degree": "UG in Entrepreneurship",
-    "inst": "Institute of Venture Building",
-    "grade": "Pursuing"
-  },
-  {
-    "year": "2024-25",
-    "degree": "Class XII (PCMB)",
-    "inst": "SSVPS Dr. P. R. Ghogrey Science College, Dhule",
-    "grade": "76.17%"
-  },
-  {
-    "year": "2022-23",
-    "degree": "Class X (CBSE)",
-    "inst": "Kendriya Vidyalaya, Dhule",
-    "grade": "85.40%"
-  }
-]
 
 export const experience: Experience[] = [
   {

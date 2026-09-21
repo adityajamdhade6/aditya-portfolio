@@ -15,14 +15,14 @@ const BUTTON =
   'inline-flex min-h-11 items-center gap-2 rounded-full border border-white/25 px-5 text-sm text-white transition-colors hover:bg-white hover:text-[#140c0c]'
 
 function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-[11px] uppercase tracking-[0.2em] text-white/55">{children}</p>
+  return <p className="text-xs uppercase tracking-[0.2em] text-white/55">{children}</p>
 }
 
 /** Two-column row: serif label on the left, content on the right. */
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="grid gap-6 border-t border-white/10 py-12 lg:grid-cols-[0.45fr_1.55fr] lg:gap-14 lg:py-14">
-      <h3 className="font-playfair text-3xl italic tracking-[-0.04em] text-white sm:text-4xl">{title}</h3>
+    <section className="grid gap-6 border-t border-white/10 py-10 lg:grid-cols-[0.45fr_1.55fr] lg:gap-14 lg:py-14">
+      <h3 className="font-playfair text-2xl italic tracking-[-0.04em] text-white sm:text-4xl">{title}</h3>
       <div className="min-w-0">{children}</div>
     </section>
   )
@@ -155,8 +155,8 @@ function CaseBody({ project, study }: { project: Project; study: CaseStudy }) {
 
   const header = (
     <div className="min-w-0">
-      <p className="text-[11px] uppercase tracking-[0.2em] text-[#d98c88]">{study.subtitle}</p>
-      <h2 id="project-dialog-title" className="mt-4 font-playfair text-4xl italic leading-[1.02] tracking-[-0.045em] text-white sm:text-6xl">
+      <p className="text-xs uppercase tracking-[0.2em] text-[#d98c88]">{study.subtitle}</p>
+      <h2 id="project-dialog-title" className="mt-4 font-playfair text-[2rem] italic leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-6xl">
         {project.title}
       </h2>
       <p className="mt-6 max-w-3xl text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">{study.tagline}</p>
@@ -164,7 +164,7 @@ function CaseBody({ project, study }: { project: Project; study: CaseStudy }) {
       <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-3">
         {meta.map(([label, value]) => (
           <div key={label}>
-            <dt className="text-[11px] uppercase tracking-[0.2em] text-white/50">{label}</dt>
+            <dt className="text-xs uppercase tracking-[0.2em] text-white/50">{label}</dt>
             <dd className="mt-2 text-sm leading-6 text-white/90">{value}</dd>
           </div>
         ))}
@@ -208,8 +208,8 @@ function CaseBody({ project, study }: { project: Project; study: CaseStudy }) {
 
       {project.metric && !isPoster && (
         <div className="mt-10 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-white/10 py-8">
-          <span className="font-playfair text-6xl italic leading-none tracking-[-0.05em] text-[#e2a7a3] sm:text-7xl">{project.metric.value}</span>
-          <span className="text-[11px] uppercase tracking-[0.2em] text-white/60">{project.metric.label}</span>
+          <span className="font-playfair text-5xl italic leading-none tracking-[-0.05em] text-[#e2a7a3] sm:text-7xl">{project.metric.value}</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-white/60">{project.metric.label}</span>
         </div>
       )}
 
@@ -364,13 +364,13 @@ export function ProjectModal({ project, onClose, onNavigate }: ProjectModalProps
               <button type="button" onClick={() => onNavigate(previous.slug)} className="flex items-center gap-3 px-5 py-5 text-left text-white/70 transition-colors hover:bg-white/5 hover:text-white sm:px-10">
                 <ArrowLeft size={18} strokeWidth={1.4} className="flex-none" aria-hidden="true" />
                 <span className="min-w-0">
-                  <span className="block text-[11px] uppercase tracking-[0.2em] text-white/45">Previous</span>
+                  <span className="block text-xs uppercase tracking-[0.2em] text-white/45">Previous</span>
                   <span className="mt-1 block truncate">{previous.title}</span>
                 </span>
               </button>
               <button type="button" onClick={() => onNavigate(next.slug)} className="flex items-center justify-end gap-3 border-l border-white/10 px-5 py-5 text-right text-white/70 transition-colors hover:bg-white/5 hover:text-white sm:px-10">
                 <span className="min-w-0">
-                  <span className="block text-[11px] uppercase tracking-[0.2em] text-white/45">Next</span>
+                  <span className="block text-xs uppercase tracking-[0.2em] text-white/45">Next</span>
                   <span className="mt-1 block truncate">{next.title}</span>
                 </span>
                 <ArrowRight size={18} strokeWidth={1.4} className="flex-none" aria-hidden="true" />

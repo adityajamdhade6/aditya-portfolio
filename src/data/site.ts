@@ -28,5 +28,6 @@ export const PROCESS = [
 export const NAV_LINKS = [
   { id: 'about', label: 'About' },
   { id: 'portfolio', label: 'Portfolio' },
+  { id: 'experience', label: 'Experience' },
   { id: 'collaborate', label: 'Collaborate' },
 ] as const

@@ -8,7 +8,7 @@ export function Collaborate() {
       <div className="section-shell">
         <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24">
           <ScrollReveal>
-            <span className="eyebrow">03 / Collaborate</span>
+            <span className="eyebrow">04 / Collaborate</span>
             <h2 className="section-heading mt-5">
               Bring the <em>unusual</em> idea.
             </h2>

@@ -16,7 +16,7 @@ const TITLE_CLASS: Record<CardVariant, string> = {
   featured: 'text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.02]',
   default: 'text-3xl sm:text-4xl leading-[1.05]',
   compact: 'text-2xl sm:text-[1.7rem] leading-[1.1]',
-  poster: 'text-xl sm:text-2xl leading-[1.1]',
+  poster: 'text-lg sm:text-2xl leading-[1.15]',
 }
 
 export function ProjectCard({ project, variant = 'default', reverse = false, onOpen }: ProjectCardProps) {
@@ -26,8 +26,8 @@ export function ProjectCard({ project, variant = 'default', reverse = false, onO
   const isPoster = variant === 'poster'
 
   const text = (
-    <div className={isFeatured ? 'flex flex-col justify-center' : 'mt-6'}>
-      <p className="text-[11px] uppercase tracking-[0.2em] text-white/55">
+    <div className={isFeatured ? 'flex flex-col justify-center' : isPoster ? 'mt-4 sm:mt-6' : 'mt-5 sm:mt-6'}>
+      <p className="text-xs uppercase tracking-[0.2em] text-white/55">
         <span className="mr-3 text-[#d98c88]">{number}</span>
         {kicker}
       </p>

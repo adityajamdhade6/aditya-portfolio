@@ -66,7 +66,7 @@ export function Nav() {
               key={id}
               href={`#${id}`}
               aria-current={active === id ? 'true' : undefined}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors lg:px-4 ${
                 active === id ? 'bg-white/20 text-white' : 'text-white/75 hover:bg-white/15 hover:text-white'
               }`}
             >

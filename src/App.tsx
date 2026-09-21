@@ -5,6 +5,7 @@ import { projectBySlug } from './data/projects'
 import { About } from './sections/About'
 import { Collaborate } from './sections/Collaborate'
 import { Contact } from './sections/Contact'
+import { Experience } from './sections/Experience'
 import { Work } from './sections/Work'
 import { useProjectRoute } from './useProjectRoute'
 
@@ -19,6 +20,7 @@ function App() {
         <Hero />
         <About />
         <Work onOpen={open} />
+        <Experience />
         <Collaborate />
         <Contact />
       </main>

@@ -8,10 +8,10 @@ type WorkProps = { onOpen: (slug: string) => void }
 
 function SubIntro({ eyebrow, heading, children }: { eyebrow: string; heading: ReactNode; children: ReactNode }) {
   return (
-    <ScrollReveal className="mb-14 mt-36 flex flex-col justify-between gap-7 border-t border-white/15 pt-10 md:flex-row md:items-end">
+    <ScrollReveal className="mb-8 mt-20 flex flex-col justify-between gap-5 border-t border-white/15 pt-8 md:mb-14 md:mt-32 md:flex-row md:items-end md:gap-7 md:pt-10">
       <div>
         <span className="eyebrow">{eyebrow}</span>
-        <h3 className="section-heading mt-5 !text-5xl sm:!text-7xl">{heading}</h3>
+        <h3 className="section-heading mt-4 !text-4xl sm:!text-6xl">{heading}</h3>
       </div>
       <p className="max-w-xs text-sm leading-6 text-white/60">{children}</p>
     </ScrollReveal>
@@ -26,7 +26,7 @@ export function Work({ onOpen }: WorkProps) {
   return (
     <section id="portfolio" className="portfolio-section bg-[#100909] text-white">
       <div className="section-shell">
-        <ScrollReveal className="mb-20 flex flex-col justify-between gap-7 md:flex-row md:items-end">
+        <ScrollReveal className="mb-10 flex flex-col justify-between gap-5 md:mb-20 md:flex-row md:items-end md:gap-7">
           <div>
             <span className="eyebrow">02 / Selected work</span>
             <h2 className="section-heading mt-5">
@@ -38,7 +38,7 @@ export function Work({ onOpen }: WorkProps) {
           </p>
         </ScrollReveal>
 
-        <div className="flex flex-col gap-24 lg:gap-32">
+        <div className="flex flex-col gap-14 md:gap-24 lg:gap-32">
           {featured.map((project, index) => (
             <ScrollReveal key={project.slug}>
               <ProjectCard project={project} variant="featured" reverse={index % 2 === 1} onOpen={onOpen} />
@@ -46,7 +46,7 @@ export function Work({ onOpen }: WorkProps) {
           ))}
         </div>
 
-        <div className="mt-24 grid gap-x-10 gap-y-20 md:grid-cols-2 lg:mt-32 lg:gap-x-14 lg:gap-y-24">
+        <div className="mt-14 grid gap-x-10 gap-y-14 md:mt-24 md:grid-cols-2 md:gap-y-20 lg:mt-32 lg:gap-x-14 lg:gap-y-24">
           {caseStudies.map((project, index) => (
             <ScrollReveal key={project.slug} delay={(index % 2) * 90}>
               <ProjectCard project={project} onOpen={onOpen} />
@@ -84,7 +84,7 @@ export function Work({ onOpen }: WorkProps) {
           Smaller product explorations, kept separate from the main case-study work.
         </SubIntro>
 
-        <div className="grid gap-x-10 gap-y-16 md:grid-cols-3">
+        <div className="grid gap-x-10 gap-y-12 md:grid-cols-3 md:gap-y-16">
           {experiment.map((project, index) => (
             <ScrollReveal key={project.slug} delay={index * 90}>
               <ProjectCard project={project} variant="compact" onOpen={onOpen} />
