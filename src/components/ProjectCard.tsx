@@ -31,7 +31,7 @@ export function ProjectCard({ project, variant = 'default', reverse = false, onO
         <span className="mr-3 text-[#d98c88]">{number}</span>
         {kicker}
         {project.kind && (
-          <span className="ml-3 inline-block rounded-full border border-white/20 px-2.5 py-0.5 align-middle text-[0.65rem] tracking-[0.14em] text-white/70">{project.kind}</span>
+          <span className="ml-3 inline-block rounded-full border border-white/20 px-2.5 py-0.5 align-middle text-[0.72rem] tracking-[0.14em] text-white/70">{project.kind}</span>
         )}
       </p>
       <div className="mt-4 flex items-start justify-between gap-6">
@@ -44,12 +44,6 @@ export function ProjectCard({ project, variant = 'default', reverse = false, onO
       </div>
       {!isPoster && (
         <p className={`mt-4 max-w-md text-sm leading-7 text-white/65 ${isFeatured ? 'sm:text-base sm:leading-8' : ''}`}>{project.description}</p>
-      )}
-      {project.metric && !isPoster && (
-        <p className="metric-chip mt-6 self-start">
-          <strong>{project.metric.value}</strong>
-          {project.metric.label}
-        </p>
       )}
       {isFeatured && (
         <p className="mt-8 flex items-center gap-2 text-sm text-white/80">

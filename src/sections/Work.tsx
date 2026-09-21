@@ -35,7 +35,7 @@ export function Work({ onOpen }: WorkProps) {
           </div>
         </ScrollReveal>
 
-        <div className="flex flex-col gap-14 md:gap-24 lg:gap-32">
+        <div className="flex flex-col gap-12 md:gap-24 lg:gap-32">
           {featured.map((project, index) => (
             <ScrollReveal key={project.slug}>
               <ProjectCard project={project} variant="featured" reverse={index % 2 === 1} onOpen={onOpen} />
@@ -43,7 +43,7 @@ export function Work({ onOpen }: WorkProps) {
           ))}
         </div>
 
-        <div className="mt-14 grid gap-x-10 gap-y-14 md:mt-24 md:grid-cols-2 md:gap-y-20 lg:mt-32 lg:gap-x-14 lg:gap-y-24">
+        <div className="mt-12 grid gap-x-10 gap-y-12 md:mt-24 md:grid-cols-2 md:gap-y-20 lg:mt-32 lg:gap-x-14 lg:gap-y-24">
           {caseStudies.map((project, index) => (
             <ScrollReveal key={project.slug} delay={(index % 2) * 90}>
               <ProjectCard project={project} onOpen={onOpen} />

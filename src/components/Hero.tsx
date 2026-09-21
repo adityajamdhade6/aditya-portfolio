@@ -102,7 +102,8 @@ function TouchReveal({ image }: { image: string }) {
     }
 
     const rect = () => reveal.getBoundingClientRect()
-    reveal.style.setProperty('--spotlight-radius', `${Math.min(SPOTLIGHT_RADIUS, rect().width * 0.3)}px`)
+    const box0 = rect()
+    reveal.style.setProperty('--spotlight-radius', `${Math.min(SPOTLIGHT_RADIUS, Math.min(box0.width, box0.height) * 0.36)}px`)
 
     const onTouch = (event: TouchEvent) => {
       const touch = event.touches[0]
@@ -122,9 +123,9 @@ function TouchReveal({ image }: { image: string }) {
     // Intro sweep across the face so people notice the effect.
     const { width, height } = rect()
     const path: [number, number][] = [
-      [width * 0.4, height * 0.35],
-      [width * 0.6, height * 0.35],
-      [width * 0.5, height * 0.55],
+      [width * 0.42, height * 0.27],
+      [width * 0.58, height * 0.27],
+      [width * 0.5, height * 0.42],
     ]
     path.forEach(([x, y], index) => timers.push(window.setTimeout(() => moveTo(x, y), 1400 + index * 650)))
     timers.push(window.setTimeout(() => moveTo(-999, -999), 1400 + path.length * 650 + 300))
@@ -145,7 +146,7 @@ function TouchReveal({ image }: { image: string }) {
   return (
     <div
       ref={revealRef}
-      className="spotlight-reveal pointer-events-none absolute inset-x-0 top-0 z-30 aspect-video bg-cover bg-center bg-no-repeat sm:inset-0 sm:aspect-auto"
+      className="spotlight-reveal pointer-events-none absolute inset-0 z-30 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${image})` }}
       aria-hidden="true"
     />
@@ -157,45 +158,48 @@ export function Hero() {
   const [hasFinePointer] = useState(() => window.matchMedia(FINE_POINTER).matches)
 
   return (
-    <section id="hero" className="relative w-full overflow-hidden bg-black sm:h-dvh">
-      {/* Phones show the whole landscape photo with the text underneath; from sm up it fills the screen. */}
+    <section id="hero" className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-black sm:h-dvh">
       <img
         src="/images/Base_image.webp"
         alt="Portrait of Aditya Jamdhade"
-        className="hero-zoom relative z-10 block aspect-video w-full object-cover sm:absolute sm:inset-0 sm:aspect-auto sm:h-full sm:object-center"
+        className="hero-zoom absolute inset-0 z-10 h-full w-full object-cover object-center"
         fetchPriority="high"
       />
-      <div className="pointer-events-none absolute inset-x-0 top-[calc(100vw*9/16-4rem)] z-[35] h-16 bg-gradient-to-b from-transparent to-black sm:hidden" aria-hidden="true" />
       {hasFinePointer ? <RevealLayer image="/images/Reveal_image.webp" radius={SPOTLIGHT_RADIUS} /> : <TouchReveal image="/images/Reveal_image.webp" />}
+      {/* Phones: darken the lower part so the text stays readable over the suit. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[35] h-[62%] bg-gradient-to-t from-black/90 via-black/55 to-transparent sm:hidden" aria-hidden="true" />
 
-      <div className="relative z-50 flex flex-col items-start px-5 pt-2 text-left sm:absolute sm:left-12 sm:top-1/2 sm:-translate-y-1/2 sm:pt-0 md:left-20">
-        <h1 className="leading-[0.95] text-white">
-          <span className="hero-anim hero-reveal block font-playfair text-6xl font-normal italic sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.05em', animationDelay: '0.25s' }}>I'm</span>
-          <span className="hero-anim hero-reveal -mt-1 block text-6xl font-normal sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.08em', animationDelay: '0.42s' }}>ADITYA</span>
-        </h1>
-        <span className="hero-anim hero-reveal mt-3 font-playfair text-lg italic text-white/90 sm:mt-4 md:text-xl" style={{ letterSpacing: '-0.02em', animationDelay: '0.58s' }}>AI CREATOR &amp; DEVELOPER</span>
-      </div>
+      {/* On phones this is one stack at the bottom; from sm up the wrapper disappears and each block is positioned on the hero. */}
+      <div className="absolute inset-x-0 bottom-0 z-50 flex flex-col px-5 pb-7 sm:contents">
+        <div className="flex flex-col items-start text-left sm:absolute sm:z-50 sm:left-12 sm:top-1/2 sm:-translate-y-1/2 sm:px-5 md:left-20">
+          <h1 className="leading-[0.95] text-white">
+            <span className="hero-anim hero-reveal block font-playfair text-6xl font-normal italic sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.05em', animationDelay: '0.25s' }}>I'm</span>
+            <span className="hero-anim hero-reveal -mt-1 block text-6xl font-normal sm:text-7xl md:text-8xl" style={{ letterSpacing: '-0.08em', animationDelay: '0.42s' }}>ADITYA</span>
+          </h1>
+          <span className="hero-anim hero-reveal mt-3 font-playfair text-lg italic text-white/90 sm:mt-4 md:text-xl" style={{ letterSpacing: '-0.02em', animationDelay: '0.58s' }}>AI CREATOR &amp; DEVELOPER</span>
+        </div>
 
-      <p className="hero-anim hero-fade relative z-50 mt-6 max-w-[21rem] px-5 text-sm leading-relaxed text-white/80 sm:absolute sm:bottom-14 sm:left-12 sm:mt-0 sm:max-w-[17rem] sm:px-0 md:left-[100px]" style={{ animationDelay: '0.7s' }}>
-        I build AI-powered products and brands. Obsessed with systems, growth and work that actually ships.
-      </p>
-
-      <div className="hero-anim hero-fade relative z-50 mt-6 px-5 sm:absolute sm:bottom-14 sm:left-auto sm:right-10 sm:mt-0 sm:max-w-[19rem] sm:px-0 md:right-14" style={{ animationDelay: '0.85s' }}>
-        <p className="font-playfair text-xl italic leading-snug text-white/90 sm:whitespace-nowrap sm:text-2xl sm:text-right" style={{ letterSpacing: '-0.02em' }}>
-          Co-founder of <span className="not-italic font-sans font-semibold tracking-[0.02em] text-white">INHAUS</span> Coffee.
+        <p className="hero-anim hero-fade mt-5 max-w-[20rem] text-sm leading-relaxed text-white/80 sm:absolute sm:z-50 sm:bottom-14 sm:left-12 sm:mt-0 sm:max-w-[17rem] md:left-[100px]" style={{ animationDelay: '0.7s' }}>
+          I build AI-powered products and brands. Obsessed with systems, growth and work that actually ships.
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-white/75 sm:text-right">
-          Building with AI every day, from the first idea to the first customer.
-        </p>
-      </div>
 
-      <div className="hero-anim hero-fade relative z-50 mt-8 flex gap-3 px-5 pb-12 sm:hidden" style={{ animationDelay: '1s' }}>
-        <a href="#portfolio" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-gray-900">
-          View my work
-        </a>
-        <a href="#contact" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-white/30 px-5 text-sm text-white">
-          Get in touch
-        </a>
+        <div className="hero-anim hero-fade mt-4 sm:absolute sm:z-50 sm:bottom-14 sm:left-auto sm:right-10 sm:mt-0 sm:max-w-[19rem] md:right-14" style={{ animationDelay: '0.85s' }}>
+          <p className="font-playfair text-xl italic leading-snug text-white/90 sm:whitespace-nowrap sm:text-2xl sm:text-right" style={{ letterSpacing: '-0.02em' }}>
+            Co-founder of <span className="not-italic font-sans font-semibold tracking-[0.02em] text-white">INHAUS</span> Coffee.
+          </p>
+          <p className="mt-2 hidden text-sm leading-relaxed text-white/75 sm:block sm:text-right">
+            Building with AI every day, from the first idea to the first customer.
+          </p>
+        </div>
+
+        <div className="hero-anim hero-fade mt-6 flex gap-3 sm:hidden" style={{ animationDelay: '1s' }}>
+          <a href="#portfolio" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-gray-900">
+            View my work
+          </a>
+          <a href="#contact" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-white/35 bg-black/20 px-5 text-sm text-white backdrop-blur-sm">
+            Get in touch
+          </a>
+        </div>
       </div>
 
       <a

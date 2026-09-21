@@ -23,7 +23,7 @@ export function Experience() {
                 </p>
                 <p className="text-base text-white/80">
                   {job.role}
-                  <span className="ml-3 rounded-full border border-white/15 whitespace-nowrap px-2.5 py-0.5 align-middle text-[0.65rem] uppercase tracking-[0.14em] text-white/55">{job.tag}</span>
+                  <span className="ml-3 rounded-full border border-white/15 whitespace-nowrap px-2.5 py-0.5 align-middle text-[0.72rem] uppercase tracking-[0.14em] text-white/55">{job.tag}</span>
                 </p>
                 <p className="text-sm text-white/55 md:text-right">{job.period}</p>
                 <span className="hidden md:block">{job.url && <ArrowUpRight className="project-arrow" size={20} strokeWidth={1.4} aria-hidden="true" />}</span>

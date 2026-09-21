@@ -13,7 +13,7 @@ export function Contact() {
         </ScrollReveal>
 
         <ScrollReveal className="mt-16 sm:mt-20">
-          <a href={`mailto:${EMAIL}`} className="contact-email text-xl text-white sm:text-4xl">
+          <a href={`mailto:${EMAIL}`} className="contact-email min-h-12 text-xl text-white sm:text-4xl">
             {EMAIL}
             <ArrowUpRight className="mt-1 flex-none sm:mt-2" size={28} strokeWidth={1.3} aria-hidden="true" />
           </a>

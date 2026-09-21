@@ -14,7 +14,7 @@ function LinkedInFrame({ post }: { post: LinkedInEmbed }) {
   useEffect(() => {
     const frame = ref.current
     if (!frame) return
-    const update = () => setHeight(Math.round(post.height * Math.max(1, EMBED_WIDTH / frame.clientWidth) ** 0.6))
+    const update = () => setHeight(Math.round(post.height * Math.max(1, EMBED_WIDTH / frame.clientWidth) ** 0.12))
     update()
     const observer = new ResizeObserver(update)
     observer.observe(frame)
